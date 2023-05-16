@@ -2,7 +2,7 @@
 //functions (board, controling, players, displaying)
 
 const gameBoard = () => {
-  let board = ["x", "x", "x", "", "", "", "", "", ""];
+  let board = ["", "", "", "", "", "", "", "", ""];
 
   const getBoard = () => board;
 
@@ -17,11 +17,12 @@ const displaying = () => {
   const displayTextNShit = () => {};
 
   const displayBoard = () => {
-    for (emtypCell of playingBoard) {
+    playingBoard.forEach((cell, index) => {
       let button = document.createElement("button");
       button.classList.add("cell");
+      button.dataset.id = index;
       domBoard.appendChild(button);
-    }
+    });
   };
 
   return { displayBoard };
@@ -42,30 +43,100 @@ const players = () => {
 
   let currentPLayer = playerOne;
 
+  const changeCurrentPlayer = (newCurrentPLayer) => {
+    if (newCurrentPLayer) {
+      currentPLayer = playerTwo;
+    } else {
+      currentPLayer = playerOne;
+    }
+  };
+
   const getCurrentPlayer = () => currentPLayer;
 
+  return { getCurrentPlayer, changeCurrentPlayer };
 };
 
 const boardControl = () => {
-    const displayGrid = displaying();
-    const board. 
+  const displayGrid = displaying();
+  const boardElement = document.querySelector(".board");
+  const player = players();
+
+  const getBoard = () => actualBoard;
+
   const reset = () => {};
 
-  const checkForWinner = () => {};
-
-  const setMaker = () => {
-    currentPLayer.marker 
+  const threeInRow = (button) => {
+    if (button.textContent === player.getCurrentPlayer().marker) {
+    }
   };
 
-  const switchTurn = () => {};
+  const checkForWinner = () => {
+    let leftToRightTop = document.querySelectorAll(
+      "[data-id='0'],[data-id='1'],[data-id='2']"
+    );
+    const leftToRightMid = document.querySelector(
+      "[data-id='0'][data-id='1'][data-id='2']"
+    );
+    const leftToRightLow = document.querySelector(
+      "[data-id='0'][data-id='1'][data-id='2']"
+    );
+    const upDownLeft = document.querySelector(
+      "[data-id='0'][data-id='3'][data-id='6']"
+    );
+    const upDownMid = document.querySelector(
+      "[data-id='1'][data-id='4'][data-id='7']"
+    );
+    const upDownRight = document.querySelector(
+      "[data-id='2'][data-id='5'][data-id='8']"
+    );
+    const diaLeftToRight = document.querySelector(
+      "[data-id='0'][data-id='4'][data-id='8']"
+    );
+    const diaRightToLeft = document.querySelector(
+      "[data-id='2'][data-id='4'][data-id='6']"
+    );
 
-  const addListener = () => {
-    
-    const listenerGrid = displayGrid.displayBoard();
-    listenerGrid.addListener("click",setMarker )
+    /* leftToRightTop.forEach((button) => {
+        if(button.textContent === )
+    }); */
 
-  }
+    console.log(leftToRightTop.textContent);
+  };
 
-  
+  const setMarker = (x) => {
+    let markerPosition = document.querySelector(`[data-id="${x}"]`);
+    console.log(markerPosition);
+    markerPosition.textContent = player.getCurrentPlayer().marker;
+  };
+
+  const switchTurn = () => {
+    let doWeSwitch = player.getCurrentPlayer().marker === "X";
+    let switcharoo = doWeSwitch ? true : false;
+    player.changeCurrentPlayer(switcharoo);
+  };
+
+  const getDataID = (e) => {
+    let dataID = e.target.dataset.id;
+    console.log(dataID);
+    return dataID;
+  };
+
+  const playRound = () => {
+    boardElement.addEventListener("click", (e) => {
+      console.log(e);
+      let startChecking = 1;
+      let markerLocation = getDataID(e);
+      setMarker(markerLocation);
+
+      checkForWinner();
+
+      switchTurn();
+    });
+  };
+
+  playRound();
 };
-//figuring out how to set the marker in the correct spot
+
+boardControl();
+
+//figuring out checkWinner logic
