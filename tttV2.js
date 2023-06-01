@@ -1,6 +1,7 @@
 //check check
 //functions (board, controling, players, displaying)
 
+//making the game board
 const gameBoard = () => {
   let board = ["", "", "", "", "", "", "", "", ""];
 
@@ -9,6 +10,7 @@ const gameBoard = () => {
   return { getBoard };
 };
 
+//Displaying the game board (making it display 3x3)
 const displaying = () => {
   const domBoard = document.querySelector(".board");
   const displayText = document.querySelector(".displayHeadings");
@@ -31,6 +33,7 @@ const displaying = () => {
 const display = displaying();
 display.displayBoard();
 
+//player logic
 const players = () => {
   let playerOne = {
     name: "",
@@ -56,8 +59,9 @@ const players = () => {
   return { getCurrentPlayer, changeCurrentPlayer };
 };
 
+//controls needed to make the game function (no pun intended)
 const boardControl = () => {
-  const displayGrid = displaying();
+  //const displayGrid = displaying();
   const boardElement = document.querySelector(".board");
   const player = players();
 
@@ -65,107 +69,104 @@ const boardControl = () => {
 
   const reset = () => {};
 
-  const threeInRow = (button) => {
-    if (button.textContent === player.getCurrentPlayer().marker) {
+  //put all the markers in an array if certain three index equal the currentPlayer
+  //marker then we have a winner if not than empty the array before function ends
+
+  const checkForWinner = () => {
+    let array = new Array();
+    let playerMarker = player.getCurrentPlayer().marker;
+    console.log(playerMarker);
+
+    //puts all current markers on board in array
+    for (let i = 0; i < 9; i++) {
+      let allMarkers = document.querySelector(`[data-id="${i}"]`);
+      let holdCurrentMarker = allMarkers.innerText;
+      console.log(holdCurrentMarker);
+
+      array.push(holdCurrentMarker);
+      console.log(array);
+    }
+
+    //checks array for patterns that indicate a winner, tie, or to keep playing
+    if (
+      array[0] === playerMarker &&
+      array[1] === playerMarker &&
+      array[2] === playerMarker
+    ) {
+      console.log("winner");
+    } else if (
+      array[3] === playerMarker &&
+      array[4] === playerMarker &&
+      array[5] === playerMarker
+    ) {
+      console.log("winner2");
+    } else if (
+      array[6] === playerMarker &&
+      array[7] === playerMarker &&
+      array[8] === playerMarker
+    ) {
+      console.log("winner3");
+    } else if (
+      array[0] === playerMarker &&
+      array[3] === playerMarker &&
+      array[6] === playerMarker
+    ) {
+      console.log("winner4");
+    } else if (
+      array[1] === playerMarker &&
+      array[4] === playerMarker &&
+      array[7] === playerMarker
+    ) {
+      console.log("winner5");
+    } else if (
+      array[2] === playerMarker &&
+      array[5] === playerMarker &&
+      array[8] === playerMarker
+    ) {
+      console.log("winner6");
+    } else if (
+      array[0] === playerMarker &&
+      array[4] === playerMarker &&
+      array[8] === playerMarker
+    ) {
+      console.log("winner7");
+    } else if (
+      array[2] === playerMarker &&
+      array[4] === playerMarker &&
+      array[6] === playerMarker
+    ) {
+      console.log("winner8");
+    } else if (array.every((element) => element !== "")) {
+      console.log("its a tie");
+    } else {
+      array = [];
     }
   };
 
-  const checkForWinner = () => {
-    let checkForWinnerArray = [];
-    let markerArray = Array();
-
-    let leftToRightTop = document.querySelectorAll(
-      "[data-id='0'],[data-id='1'],[data-id='2']"
-    );
-    let leftToRightMid = document.querySelectorAll(
-      "[data-id='3'],[data-id='4'],[data-id='5']"
-    );
-    let leftToRightLow = document.querySelectorAll(
-      "[data-id='6'],[data-id='7'],[data-id='8']"
-    );
-    let upDownLeft = document.querySelectorAll(
-      "[data-id='0'],[data-id='3'],[data-id='6']"
-    );
-    let upDownMid = document.querySelectorAll(
-      "[data-id='1'],[data-id='4'],[data-id='7']"
-    );
-    let upDownRight = document.querySelectorAll(
-      "[data-id='2'],[data-id='5'],[data-id='8']"
-    );
-    let diaLeftToRight = document.querySelectorAll(
-      "[data-id='0'],[data-id='4'],[data-id='8']"
-    );
-    let diaRightToLeft = document.querySelectorAll(
-      "[data-id='2'],[data-id='4'],[data-id='6']"
-    );
-
-    /*console.log(leftToRightTop);
-    console.log(leftToRightMid);*/
-    checkForWinnerArray.push(
-      leftToRightTop,
-      leftToRightMid,
-      leftToRightLow,
-      upDownLeft,
-      upDownMid,
-      upDownRight,
-      diaLeftToRight,
-      diaRightToLeft
-    );
-    console.log(checkForWinnerArray);
-    
-    //get eveything into array slice every 3 indexes represents a winner. 
-    //9 arrays of possible ways to win if any has all 3 of the currentplayr marker
-    //they win
-    
-    checkForWinnerArray.forEach((nList) => {
-      nList.forEach((button) => {
-        markerArray.push(button.innerText);
-      });
-      for(let i = 2; i < markerArray.length; i + 3){
-        let array + i = arkerArray.splice(0, i)
-      }
-      console.log(markerArray);
-    });
-
-    
-    //puts the nodeist in a array
-    /* console.log(leftToRightTop);
-    Array.from(leftToRightTop, (buttonText) => {
-      checkForWinnerArray.push(buttonText.innerText);
-    });
-    
-    //check array for three in a row 
-    const letsCheckArray = () =>{
-        for(let i = 0; i < 2; i++){
-            if(checkForWinnerArray[i] === player.getCurrentPlayer().marker){
-
-            }
-            console.log(player.getCurrentPlayer().name + "is the winner");
-        }
-    } */
-  };
-
+  //visually sets marker on board
   const setMarker = (x) => {
     let markerPosition = document.querySelector(`[data-id="${x}"]`);
     console.log(markerPosition);
     markerPosition.textContent = player.getCurrentPlayer().marker;
   };
 
+  //switches players turn
   const switchTurn = () => {
     let doWeSwitch = player.getCurrentPlayer().marker === "X";
     let switcharoo = doWeSwitch ? true : false;
     player.changeCurrentPlayer(switcharoo);
   };
 
+  //gets dataset ID being used to refrence location of cell on board
   const getDataID = (e) => {
     let dataID = e.target.dataset.id;
     console.log(dataID);
     return dataID;
   };
 
+  //plays a single round of tik tac toe
   const playRound = () => {
     boardElement.addEventListener("click", (e) => {
-      let startChecking = 1;
       let markerLocation = getDataID(e);
       setMarker(markerLocation);
 
@@ -178,6 +179,5 @@ const boardControl = () => {
   playRound();
 };
 
+//initiates the game
 boardControl();
-
-//figuring out checkWinner logic
