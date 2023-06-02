@@ -25,6 +25,8 @@ const displaying = () => {
       button.dataset.id = index;
       domBoard.appendChild(button);
     });
+
+    const scoreBoard = () => {};
   };
 
   return { displayBoard };
@@ -68,6 +70,13 @@ const boardControl = () => {
   const getBoard = () => actualBoard;
 
   const reset = () => {};
+
+  const namePrompt = () => {};
+
+  const start = () => {
+    const sButton = document.querySelector(".start");
+    sButton.addEventListener("click");
+  };
 
   //put all the markers in an array if certain three index equal the currentPlayer
   //marker then we have a winner if not than empty the array before function ends
@@ -166,9 +175,17 @@ const boardControl = () => {
 
   //plays a single round of tik tac toe
   const playRound = () => {
+    let takenArray = [];
     boardElement.addEventListener("click", (e) => {
       let markerLocation = getDataID(e);
-      setMarker(markerLocation);
+      if (takenArray.includes(markerLocation)) {
+        //if dataID is in array the spot it refrences is taken, exits out
+        return;
+      } else {
+        takenArray.push(markerLocation);
+
+        setMarker(markerLocation);
+      }
 
       checkForWinner();
 
@@ -181,3 +198,6 @@ const boardControl = () => {
 
 //initiates the game
 boardControl();
+
+//setting listenre on start when clicked the player name form will pop up
+//after they hit submit it they will disapear and the game will start
