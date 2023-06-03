@@ -7,8 +7,19 @@
     <link rel="stylesheet" href="stylesheet.css" />
   </head>
   <body>
-    <label for="name">Player1 enter name</label>
-    <input type="text" id="name" name="name" required />
+    <form class="hidden visible">
+      <div>
+        <label for="nameOne">Player1 enter name</label>
+        <input type="text" id="nameOne" name="name" required />
+      </div>
+      <div>
+        <label for="nameTwo">PlayerTwo Enter Name</label>
+        <input type="text" id="nameTwo" name="name" required />
+      </div>
+      <div>
+        <button class="submit" type="button">Submit</button>
+      </div>
+    </form>
     <div class="container">
       <div class="displayHeadings"></div>
       <div class="board"></div>

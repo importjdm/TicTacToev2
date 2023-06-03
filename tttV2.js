@@ -37,12 +37,38 @@ display.displayBoard();
 
 //player logic
 const players = () => {
-  let playerOne = {
+  /* let playerOne = {
     name: "",
     marker: "X",
   };
   let playerTwo = {
     name: "",
+    marker: "O",
+  }; */
+
+  let nameForm = document.querySelector(".hidden");
+
+  const formHidden = () => {
+    nameForm.classList.add("hidden");
+    const playerOne = document.querySelector("#nameOne");
+    const playerTwo = document.querySelector("#nameTwo");
+
+    let nameOne = playerOne.value;
+    let nameTwo = playerTwo.value;
+  };
+
+  const submitButton = (() => {
+    const submitButton = document.querySelector(".submit");
+    submitButton.addEventListener("click", formHidden);
+  })();
+
+  let playerOne = {
+    name: nameOne,
+    marker: "X",
+  };
+
+  let playerTwo = {
+    name: nameTwo,
     marker: "O",
   };
 
@@ -66,6 +92,8 @@ const boardControl = () => {
   //const displayGrid = displaying();
   const boardElement = document.querySelector(".board");
   const player = players();
+  let nameForm = document.querySelector(".hidden");
+  //let formClass = nameForm.classList;
 
   const getBoard = () => actualBoard;
 
@@ -73,10 +101,35 @@ const boardControl = () => {
 
   const namePrompt = () => {};
 
-  const start = () => {
-    const sButton = document.querySelector(".start");
-    sButton.addEventListener("click");
+  //Makes name form visible
+  const FormVisible = () => {
+    nameForm.classList.remove("hidden");
   };
+
+  /*const formHidden = () => {
+    nameForm.classList.add("hidden");
+    const playerOne = document.querySelector("#nameOne");
+    const playerTwo = document.querySelector("#playerTwo");
+
+    const passNames = () => {
+      let playerOneName = playerOne.value;
+      let playerTwoName = playerTwo.value;
+
+      return [playerOneName, playerTwoName];
+    };
+    return { passNames };
+  };*/
+
+  //pops up name form when start is clicked
+  const start = (() => {
+    const startButton = document.querySelector(".start");
+    startButton.addEventListener("click", FormVisible);
+  })();
+
+  /*const submitButton = (() => {
+    const submitButton = document.querySelector(".submit");
+    submitButton.addEventListener("click", formHidden);
+  })();*/
 
   //put all the markers in an array if certain three index equal the currentPlayer
   //marker then we have a winner if not than empty the array before function ends
