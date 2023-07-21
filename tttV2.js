@@ -13,10 +13,9 @@ const gameBoard = () => {
 //Displaying the game board (making it display 3x3)
 const displaying = () => {
   const domBoard = document.querySelector(".board");
-  const displayText = document.querySelector(".displayHeadings");
+
   const board = gameBoard();
   const playingBoard = board.getBoard();
-  const displayTextNShit = () => {};
 
   const displayBoard = () => {
     playingBoard.forEach((cell, index) => {
@@ -25,18 +24,20 @@ const displaying = () => {
       button.dataset.id = index;
       domBoard.appendChild(button);
     });
-
-    const scoreBoard = () => {};
   };
 
   return { displayBoard };
 };
 
-const display = displaying();
-display.displayBoard();
+/* const display = displaying();
+display.displayBoard(); */
 
 //player logic
 const players = () => {
+  let nameForm = document.querySelector(".hidden");
+  const display = displaying().cpDisplay;
+  //const nameDisplay = dis
+
   /* let playerOne = {
     name: "",
     marker: "X",
@@ -46,30 +47,41 @@ const players = () => {
     marker: "O",
   }; */
 
-  let nameForm = document.querySelector(".hidden");
-
-  const formHidden = () => {
-    nameForm.classList.add("hidden");
-    const playerOne = document.querySelector("#nameOne");
-    const playerTwo = document.querySelector("#nameTwo");
-
-    let nameOne = playerOne.value;
-    let nameTwo = playerTwo.value;
+  //Makes name form visible
+  const FormVisible = () => {
+    nameForm.classList.remove("hidden");
   };
 
-  const submitButton = (() => {
-    const submitButton = document.querySelector(".submit");
-    submitButton.addEventListener("click", formHidden);
-  })();
+  //pops up name form when start is clicked
+  const start = () => {
+    const startButton = document.querySelector(".start");
+    startButton.addEventListener("click", () => {
+      FormVisible();
+      startButton.classList.add("hidden");
+    });
+  };
 
+  // add hidden class to hide form
+  const formHidden = () => {
+    nameForm.classList.add("hidden");
+  };
+
+  // player objects
   let playerOne = {
-    name: nameOne,
     marker: "X",
   };
 
   let playerTwo = {
-    name: nameTwo,
     marker: "O",
+  };
+
+  const addingNames = () => {
+    const nameOne = document.querySelector("#nameOne");
+    const nameTwo = document.querySelector("#nameTwo");
+    const newNameOne = nameOne.value;
+    const newNameTwo = nameTwo.value;
+    playerOne.name = newNameOne;
+    playerTwo.name = newNameTwo;
   };
 
   let currentPLayer = playerOne;
@@ -82,54 +94,73 @@ const players = () => {
     }
   };
 
-  const getCurrentPlayer = () => currentPLayer;
+  let getCurrentPlayer = () => currentPLayer;
+  let getPlayerOne = () => playerOne;
 
-  return { getCurrentPlayer, changeCurrentPlayer };
+  //when submit is pressed activated formHIdden function
+  const submitButton = () => {
+    const submitButton = document.querySelector(".submit");
+    submitButton.addEventListener("click", () => {
+      formHidden();
+      addingNames();
+    });
+  };
+
+  return {
+    getCurrentPlayer,
+    changeCurrentPlayer,
+    start,
+    submitButton,
+    getPlayerOne,
+  };
 };
 
 //controls needed to make the game function (no pun intended)
 const boardControl = () => {
-  //const displayGrid = displaying();
+  //const displayGrid = displaying()
   const boardElement = document.querySelector(".board");
+  const Dheading = document.querySelector(".displayHeadings");
   const player = players();
-  let nameForm = document.querySelector(".hidden");
-  //let formClass = nameForm.classList;
+  const GUI = displaying();
+  const rBtn = document.querySelector(".restart");
+  let takenArray = [];
+  let stopHeadDisplay = false;
+  const startButton = player.start;
+  const submitButton = player.submitButton;
+  GUI.displayBoard();
 
-  const getBoard = () => actualBoard;
-
-  const reset = () => {};
-
-  const namePrompt = () => {};
-
-  //Makes name form visible
-  const FormVisible = () => {
-    nameForm.classList.remove("hidden");
+  const cpDisplay = () => {
+    const submit = document.querySelector(".submit");
+    submit.addEventListener("click", () => {
+      Dheading.innerText = player.getCurrentPlayer().name + "'s turn";
+      boardElement.classList.remove("hidden");
+    });
   };
 
-  /*const formHidden = () => {
-    nameForm.classList.add("hidden");
-    const playerOne = document.querySelector("#nameOne");
-    const playerTwo = document.querySelector("#playerTwo");
+  //controls players name displayed after then initial submit one
+  const SwitchNameDisplayed = () => {
+    Dheading.textContent = player.getCurrentPlayer().name + "'s turn!";
+  };
 
-    const passNames = () => {
-      let playerOneName = playerOne.value;
-      let playerTwoName = playerTwo.value;
+  //when reset button is hit player one turn is displayed and is set to current player
+  const resetNamesNTurn = () => {
+    Dheading.textContent = player.getPlayerOne().name + "'s turn";
+    player.changeCurrentPlayer(true);
+    switchTurn();
+  };
 
-      return [playerOneName, playerTwoName];
-    };
-    return { passNames };
-  };*/
+  //displays text declaring winning player
+  const win = () => {
+    stopHeadDisplay = true;
+    Dheading.textContent = player.getCurrentPlayer().name + " won!";
+    return { stop };
+  };
 
-  //pops up name form when start is clicked
-  const start = (() => {
-    const startButton = document.querySelector(".start");
-    startButton.addEventListener("click", FormVisible);
-  })();
-
-  /*const submitButton = (() => {
-    const submitButton = document.querySelector(".submit");
-    submitButton.addEventListener("click", formHidden);
-  })();*/
+  //displays text declaring a tie
+  const tie = () => {
+    stopHeadDisplay = true;
+    Dheading.textContent = "It's a tie!";
+  };
 
   //put all the markers in an array if certain three index equal the currentPlayer
   //marker then we have a winner if not than empty the array before function ends
@@ -155,51 +186,51 @@ const boardControl = () => {
       array[1] === playerMarker &&
       array[2] === playerMarker
     ) {
-      console.log("winner");
+      win();
     } else if (
       array[3] === playerMarker &&
       array[4] === playerMarker &&
       array[5] === playerMarker
     ) {
-      console.log("winner2");
+      win();
     } else if (
       array[6] === playerMarker &&
       array[7] === playerMarker &&
       array[8] === playerMarker
     ) {
-      console.log("winner3");
+      win();
     } else if (
       array[0] === playerMarker &&
       array[3] === playerMarker &&
       array[6] === playerMarker
     ) {
-      console.log("winner4");
+      win();
     } else if (
       array[1] === playerMarker &&
       array[4] === playerMarker &&
       array[7] === playerMarker
     ) {
-      console.log("winner5");
+      win();
     } else if (
       array[2] === playerMarker &&
       array[5] === playerMarker &&
       array[8] === playerMarker
     ) {
-      console.log("winner6");
+      win();
     } else if (
       array[0] === playerMarker &&
       array[4] === playerMarker &&
       array[8] === playerMarker
     ) {
-      console.log("winner7");
+      win();
     } else if (
       array[2] === playerMarker &&
       array[4] === playerMarker &&
       array[6] === playerMarker
     ) {
-      console.log("winner8");
+      win();
     } else if (array.every((element) => element !== "")) {
-      console.log("its a tie");
+      tie();
     } else {
       array = [];
     }
@@ -218,7 +249,9 @@ const boardControl = () => {
     let switcharoo = doWeSwitch ? true : false;
     player.changeCurrentPlayer(switcharoo);
   };
-
+  /*get the turns back in order after the reset button has been pressed
+  when reset is hit the current player gets switched to x 
+*/
   //gets dataset ID being used to refrence location of cell on board
   const getDataID = (e) => {
     let dataID = e.target.dataset.id;
@@ -226,11 +259,23 @@ const boardControl = () => {
     return dataID;
   };
 
-  //plays a single round of tik tac toe
+  //removes markers from board and empties array that tracks if there is a winner
+  function restart() {
+    rBtn.addEventListener("click", () => {
+      const cells = document.querySelectorAll(".cell");
+      console.log(cells);
+      for (let i = 0; i < cells.length; i++) {
+        cells[i].textContent = "";
+        takenArray.length = 0;
+        resetNamesNTurn();
+      }
+    });
+  }
+
   const playRound = () => {
-    let takenArray = [];
     boardElement.addEventListener("click", (e) => {
       let markerLocation = getDataID(e);
+
       if (takenArray.includes(markerLocation)) {
         //if dataID is in array the spot it refrences is taken, exits out
         return;
@@ -243,14 +288,27 @@ const boardControl = () => {
       checkForWinner();
 
       switchTurn();
+      if (stopHeadDisplay == false) {
+        SwitchNameDisplayed();
+      } else {
+        stopHeadDisplay = false;
+        return;
+      }
     });
   };
+  startButton();
+  submitButton();
+  cpDisplay();
 
   playRound();
+  restart();
 };
 
 //initiates the game
 boardControl();
 
-//setting listenre on start when clicked the player name form will pop up
-//after they hit submit it they will disapear and the game will start
+/*customize shit
+fisrt add a cool greeting before the you press start to put names in
+    
+
+ */

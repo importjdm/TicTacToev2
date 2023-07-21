@@ -5,27 +5,49 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="stylesheet.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&family=Lato&family=Noto+Sans:wght@600&family=Tektur:wght@600&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <form class="hidden visible">
-      <div>
-        <label for="nameOne">Player1 enter name</label>
-        <input type="text" id="nameOne" name="name" required />
-      </div>
-      <div>
-        <label for="nameTwo">PlayerTwo Enter Name</label>
-        <input type="text" id="nameTwo" name="name" required />
-      </div>
-      <div>
-        <button class="submit" type="button">Submit</button>
-      </div>
-    </form>
     <div class="container">
-      <div class="displayHeadings"></div>
-      <div class="board"></div>
+      <!-- <form class="hidden visible">
+        <div>
+          <label for="nameOne">Player1 enter name</label>
+          <input type="text" id="nameOne" name="name" required />
+        </div>
+        <div>
+          <label for="nameTwo">PlayerTwo Enter Name</label>
+          <input type="text" id="nameTwo" name="name" required />
+        </div>
+        <div>
+          <button class="submit" type="button">Submit</button>
+        </div>
+      </form> -->
+      <div class="headingCont">
+        <div class="displayHeadings"></div>
+        <button class="restart" type="button">Restart</button>
+      </div>
+      <div class="boardContainer">
+        <form class="hidden visible">
+          <div>
+            <label for="nameOne">Player1 Enter Name</label>
+            <input type="text" id="nameOne" name="name" required />
+          </div>
+          <div>
+            <label for="nameTwo">Player2 Enter Name</label>
+            <input type="text" id="nameTwo" name="name" required />
+            <button class="submit" type="button">Submit</button>
+          </div>
+        </form>
+        <div class="board hidden"></div>
+        <div class="topResult"></div>
+      </div>
       <div class="buttonContainer">
         <button class="start" type="button">Start</button>
-        <button class="restart" type="button">Restart</button>
       </div>
     </div>
 
