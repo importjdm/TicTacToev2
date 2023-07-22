@@ -55,9 +55,11 @@ const players = () => {
   //pops up name form when start is clicked
   const start = () => {
     const startButton = document.querySelector(".start");
+    const restartButton = document.querySelector(".unhide");
     startButton.addEventListener("click", () => {
       FormVisible();
       startButton.classList.add("hidden");
+      restartButton.classList.remove("unhide");
     });
   };
 
@@ -241,6 +243,11 @@ const boardControl = () => {
     let markerPosition = document.querySelector(`[data-id="${x}"]`);
     console.log(markerPosition);
     markerPosition.textContent = player.getCurrentPlayer().marker;
+    if (markerPosition.textContent == "X") {
+      markerPosition.classList.add("greenBG");
+    } else {
+      markerPosition.classList.add("purpBG");
+    }
   };
 
   //switches players turn
@@ -248,6 +255,17 @@ const boardControl = () => {
     let doWeSwitch = player.getCurrentPlayer().marker === "X";
     let switcharoo = doWeSwitch ? true : false;
     player.changeCurrentPlayer(switcharoo);
+  };
+
+  //chnages players turn heading to plyrs color
+  const TurnColor = () => {
+    let curPlrColr = document.querySelector(".displayHeadings");
+    if (player.getCurrentPlayer().marker === "O") {
+      curPlrColr.classList.remove("green");
+    } else if (player.getCurrentPlayer().marker === "X") {
+      curPlrColr.classList.add("green");
+    }
+    return;
   };
   /*get the turns back in order after the reset button has been pressed
   when reset is hit the current player gets switched to x 
@@ -263,9 +281,12 @@ const boardControl = () => {
   function restart() {
     rBtn.addEventListener("click", () => {
       const cells = document.querySelectorAll(".cell");
+      let turnDisClr = document.querySelector(".displayHeadings");
       console.log(cells);
       for (let i = 0; i < cells.length; i++) {
         cells[i].textContent = "";
+        cells[i].classList.remove("greenBG", "purpBG");
+        turnDisClr.classList.add("green");
         takenArray.length = 0;
         resetNamesNTurn();
       }
@@ -294,6 +315,7 @@ const boardControl = () => {
         stopHeadDisplay = false;
         return;
       }
+      TurnColor();
     });
   };
   startButton();

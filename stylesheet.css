@@ -30,17 +30,39 @@ body {
   justify-content: space-between;
   align-items: center;
   font-family: "Tektur", cursive;
+  font-size: x-large;
+}
+
+.displayHeadings.green {
+  opacity: 0.8;
+  color: rgb(108, 192, 150);
 }
 
 .displayHeadings {
-  color: white;
-  opacity: 0.5;
+  opacity: 0.8;
+  color: rgb(154, 125, 209);
+}
+
+/*start button */
+.start {
+  font-family: "Tektur", cursive;
+  font-size: xx-large;
+}
+
+.start:hover {
+  font-size: 3em;
+  background-color: white;
+  color: rgb(161, 48, 48);
+  transition: 0.7s;
+  border: none;
+  background-color: transparent;
 }
 
 /*restart button */
 .restart {
   font-family: "Tektur", cursive;
-  transition: 1s;
+  font-size: large;
+  transition: 0.7s;
   background-color: transparent;
   max-height: 50%;
   margin: 0px;
@@ -51,8 +73,14 @@ body {
 }
 /*hover effect for reset button */
 .restart:hover {
-  background-color: white;
+  font-size: xx-large;
   color: rgb(161, 48, 48);
+  opacity: 1;
+}
+
+/*hides restart btn until start is click */
+.restart.unhide {
+  visibility: hidden;
 }
 
 .boardContainer {
@@ -88,10 +116,23 @@ body {
 
 .cell {
   font-family: "Tektur", cursive;
-  font-size: 3em;
-  text-shadow: 0 0 4px black, 0 0 2px black, 0 0 4px black, 0 0 2px black;
+  font-size: 4em;
+  text-shadow: -2px -2px 2px black, -1px -1px 2px black, 2px 2px 1px black,
+    2px 2px 1px black;
   color: rgb(253, 248, 248);
   opacity: 0.7;
+}
+
+.cell.greenBG {
+  background-color: rgb(108, 192, 150);
+}
+
+.cell.purpBG {
+  background-color: rgb(154, 125, 209);
+}
+
+.cell:hover {
+  background-color: rgb(15, 15, 15);
 }
 
 form {
